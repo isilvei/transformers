@@ -1,0 +1,100 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
+	id 'jacoco'
+	id "org.sonarqube" version "5.0.0.4638"
+}
+
+group = 'com.incode.demo'
+version = '0.0.0'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+ext {
+	set('springCloudVersion', "2023.0.2")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test', Test) {
+	useJUnitPlatform()
+	testLogging.showStandardStreams = true
+	maxParallelForks = 1
+	jacocoTestReport.mustRunAfter test
+}
+
+var exclusionsList = ['com/incode/demo/transformers/domain/**','**Test**']
+
+jacocoTestReport {
+	executionData files("${layout.buildDirectory}/jacoco/test.exec")
+	reports {
+		xml.required = true
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: exclusionsList)
+		}))
+	}
+}
+
+jacoco {
+	toolVersion = '0.8.11'
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			excludes = exclusionsList
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.6
+			}
+		}
+	}
+}
+
+
+// SONARQUBE
+
+sonarqube {
+	properties {
+		property 'sonar.projectDescription', 'Incude demo transformers API'
+		property 'sonar.exclusions', exclusionsList
+		property 'sonar.coverage.jacoco.xmlReportPaths', "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml"
+		property 'sonar.core.codeCoveragePlugin', 'jacoco'
+		property 'sonar.java.coveragePlugin', 'jacoco'
+		property 'exclusions', exclusionsList
+		property 'sonar.sourceEncoding', 'UTF-8'
+		property 'sonar.scanner.metadataFilePath', "${layout.buildDirectory}/sonar/report-task.txt"
+
+	}
+}

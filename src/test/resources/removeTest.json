@@ -1,0 +1,19 @@
+{
+  "elements": [
+    {
+      "value": "Hello, World! Привет, мир!",
+      "transformers": [
+        {
+          "groupId": "group1",
+          "transformerId": "transformer1",
+          "parameters": ["[aeiou]"]
+        },
+        {
+          "groupId": "group2",
+          "transformerId": "transformer3",
+          "parameters": []
+        }
+      ]
+    }
+  ]
+}
