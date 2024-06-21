@@ -7,8 +7,8 @@ resource "random_string" "secret" {
 # https://github.com/settings/tokens/new
 # admin:repo_hook
 
-locals {
-  webhook_secret  = random_string.secret.result
-  github_token    = var.github_token
-  github_username = var.github_username
-}
+# locals {
+#   webhook_secret  = random_string.secret.result
+#   github_token    = var.github_token
+#   github_username = var.github_username
+# }

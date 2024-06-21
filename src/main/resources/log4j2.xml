@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+
+    <!-- Setting up logging pattern for console logging -->
+    <Appenders>
+        <Console name="ConsoleOutput" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+                    disableAnsi="false" />
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+
+        <!-- Logging at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="ConsoleOutput" />
+        </Root>
+
+        <!-- Logging at TRACE level -->
+        <logger name="com.incode" level="trace" additivity="false">
+            <appender-ref ref="ConsoleOutput" />
+        </logger>
+
+    </Loggers>
+
+</Configuration>

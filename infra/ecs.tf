@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "prod" {
-  name = "${var.environment_name}-${var.ecs_cluster_name}"
+  name = "${var.environment_name}-${var.service_name}-${var.ecs_cluster_name}"
 }
 
 ## ECS SERVICE
@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "service" {
       environment: [
         {
           name: "AWS_DEFAULT_REGION",
-          value: "eu-west-1"
+          value: var.region
         }
       ],
       networkMode: "bridge",

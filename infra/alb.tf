@@ -91,9 +91,9 @@ resource "aws_alb_listener" "http" {
 
 resource "aws_alb_listener" "https" {
   load_balancer_arn = aws_alb.ecs.arn 
-  port              = 443
-  protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate_validation.validate.certificate_arn
+  port              = 8080
+  protocol          = "HTTP"
+#   certificate_arn   = aws_acm_certificate_validation.validate.certificate_arn
 
   default_action {
     type = "fixed-response"

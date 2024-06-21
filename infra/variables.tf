@@ -31,23 +31,23 @@ variable "ecs_container_instance_type" {
 }
 
 variable "container_port" {
-  type    = string
-  default = "8080"
+  type    = number
+  default = 8080
 }
 
 variable "host_port" {
-  type    = string
-  default = "0"
+  type    = number
+  default = 8181
+}
+
+variable "container_reserved_task_memory" {
+  type    = number
+  default = 128
 }
 
 variable "container_desired_count" {
   type    = string
   default = "1"
-}
-
-variable "container_reserved_task_memory" {
-  type    = string
-  default = "128"
 }
 
 variable "ecs_cluster_name" {
@@ -60,28 +60,28 @@ variable "ecs_tg_healthcheck_endpoint" {
   default = "/status"
 }
 
-variable "github_username" {
-  type    = string
-  default = "silveimar"
-}
+# variable "github_username" {
+#   type    = string
+#   default = "silveimar"
+# }
 
-variable "github_repo_name" {
-  type    = string
-  default = "incode-transformers"
-}
-
-variable "github_branch" {
-  type    = string
-  default = "main"
-}
-
-variable "github_token" {
-  type    = string
-}
+# variable "github_repo_name" {
+#   type    = string
+#   default = "incode-transformers"
+# }
+#
+# variable "github_branch" {
+#   type    = string
+#   default = "main"
+# }
+#
+# variable "github_token" {
+#   type    = string
+# }
 
 variable "route53_hosted_zone" {
   type    = string
-  default = "isilver.io"
+  default = "silveimar.dev"
 }
 
 variable "route53_record_set" {
